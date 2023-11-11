@@ -212,19 +212,19 @@ vector_array_operator_impl(VectorPredicate *vector_const_predicate, bool is_or,
 }
 
 /*
- * This is a thin wrapper to nudge the compiler to inline the AND version which
+ * We use these thin wrappers to nudge the compiler to inline the AND version which
  * is much simpler than OR version.
  */
 void
-vector_array_operator(VectorPredicate *scalar_predicate, bool is_or, const ArrowArray *vector,
-					  Datum array, uint64 *restrict result)
+vector_array_operator_or(VectorPredicate *scalar_predicate, const ArrowArray *vector, Datum array,
+						 uint64 *restrict result)
 {
-	if (is_or)
-	{
-		vector_array_operator_impl(scalar_predicate, /* is_or = */ true, vector, array, result);
-	}
-	else
-	{
-		vector_array_operator_impl(scalar_predicate, /* is_or = */ false, vector, array, result);
-	}
+	vector_array_operator_impl(scalar_predicate, /* is_or = */ true, vector, array, result);
+}
+
+void
+vector_array_operator_and(VectorPredicate *scalar_predicate, const ArrowArray *vector, Datum array,
+						  uint64 *restrict result)
+{
+	vector_array_operator_impl(scalar_predicate, /* is_or = */ false, vector, array, result);
 }
