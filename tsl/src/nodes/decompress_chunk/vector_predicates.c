@@ -48,7 +48,7 @@ get_vector_const_predicate(Oid pg_predicate)
  * vector and each element of array, combines the result according to "is_or"
  * flag. Written along the lines of ExecEvalScalarArrayOp().
  */
-static inline void
+static pg_attribute_always_inline void
 vector_array_operator_impl(VectorPredicate *vector_const_predicate, bool is_or,
 						   const ArrowArray *vector, Datum array, uint64 *restrict final_result)
 {
